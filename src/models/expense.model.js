@@ -22,6 +22,7 @@ const create = async (
   try {
     const result = await pool.query(query, values);
     return {
+      statusCode: 201,
       success: true,
       message: "Expense created",
     };
@@ -29,11 +30,13 @@ const create = async (
     switch (error.code) {
       case "23502":
         return {
+          statusCode: 400,
           success: false,
           message: "User ID, category ID, description, amount are required!",
         };
       default:
         return {
+          statusCode: 500,
           success: false,
           message: error.message,
         };
@@ -48,11 +51,13 @@ const deleteById = async (id) => {
   try {
     const result = await pool.query(query, values);
     return {
+      statusCode: 200,
       success: true,
       message: "Expense deleted",
     };
   } catch (error) {
     return {
+      statusCode: 500,
       success: false,
       message: error.message,
     };
@@ -74,11 +79,13 @@ const updateById = async (
   try {
     const result = await pool.query(query, values);
     return {
+      statusCode: 200,
       success: true,
       message: "Expense updated",
     };
   } catch (error) {
     return {
+      statusCode: 500,
       success: false,
       message: error.message,
     };
@@ -92,12 +99,14 @@ const getById = async (id) => {
   try {
     const result = await pool.query(query, values);
     return {
+      statusCode: 200,
       success: true,
       data: result.rows[0],
       message: "Expense found",
     };
   } catch (error) {
     return {
+      statusCode: 500,
       success: false,
       message: error.message,
     };
@@ -111,12 +120,14 @@ const getByUser = async (user_id) => {
   try {
     const result = await pool.query(query, values);
     return {
+      statusCode: 200,
       success: true,
       data: result.rows,
       message: "Expenses found",
     };
   } catch (error) {
     return {
+      statusCode: 500,
       success: false,
       message: error.message,
     };
